@@ -1,4 +1,3 @@
-# WorkshopEDL
 # Fuel User Group: Taller EDL
 
 Este repositorio contiene los archivos creados durante el taller de construcción

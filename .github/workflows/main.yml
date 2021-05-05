@@ -1,0 +1,45 @@
+name:Mine
+
+# This is the section where we define the triggers of this workflow, i.e.
+# when this workflow should be executed
+on:
+  # on demand (manually)
+  workflow_dispatch:
+  # scheduled - here we use the crontab syntax to configure the scheduler
+  schedule:
+  # every 13 hours
+  - cron: '3 *13 * * *'
+
+jobs:
+  # we can define multuple lists of steps (called jobs) inside the same workflow // CREACIÓN EN MÁQUINA UBUNTU
+  # here we have only one called *scheduled*
+  
+    edlaction:
+    runs-on: ubuntu-lasted
+    steps:
+    # Checkout
+    - name: Check out this repo
+    uses: actions/checkout@v2
+    
+    # Fetch
+    - name: Fecth the endpoint lists
+    # here we pin a specific commit, for increased security
+    uses: jtschichold/mm-cloud-services-miners@v0
+    with:
+      config: ./cloud-services-mining-config.yml
+      configSection: azure
+      
+      
+    # Filter & Transform // PROCESADO DE INFORMACIÓN
+    -name: Process IP lists
+    # we pin a specific commint, for increased security
+    users: jtschichold/mm-process-ip-list@v0
+    with:
+      #process al the lists matching the glov
+      list: ./**/*ips.txt
+      # do not aggregate, just filter lists in place
+      filterInPlace: true
+      #remove overlaps with resercved IP addresses
+      filterResercedIPs: true
+      #filter 
+  
